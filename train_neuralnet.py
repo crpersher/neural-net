@@ -1,5 +1,6 @@
 # coding: utf-8
 import sys, os
+import pickle
 sys.path.append(os.pardir)
 
 import matplotlib.pyplot as plt
@@ -7,11 +8,11 @@ import numpy as np
 from dataset.mnist import load_mnist
 from two_layer_net import TwoLayerNet
 
-train_num = 500
-epoch_num = 800
-hidden_num = 90
-batch_size = 50
-learning_rate = 0.2
+train_num = 1000
+epoch_num = 600
+hidden_num = 30
+batch_size = 100
+learning_rate = 0.1
 # データの読み込み
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
 x_train = x_train[:train_num]
@@ -74,7 +75,12 @@ for i in range(iters_num):
         #print(str(int(i/iter_per_epoch)) + ":" + str(train_acc) + str(test_acc))
         print('{0} : {1:.4f}  {2:.4f}'.format(int(i/iter_per_epoch),train_acc,test_acc))
 
-print(network.predict(x_test))
+y = network.predict(x_test)
+y = np.argmax(y, axis=1)
+f = open('generalization_test1.txt','w')
+for i in y:
+    f.write(str(i))
+f.close()
 
 plt.plot(w11,w12,"ro")
 plt.plot(w21,w22,"o")
