@@ -12,9 +12,13 @@ from two_layer_net import TwoLayerNet
 x_train = x_train[:500]
 t_train = t_train[:500]
 
+#重みを表示する
+w1 = []
+w2 = []
+
 network = TwoLayerNet(input_size=784, hidden_size=30, output_size=10)
 
-epoch_num = 20
+epoch_num = 100
 train_size = x_train.shape[0]
 batch_size = 100
 learning_rate = 0.1
@@ -41,8 +45,8 @@ for i in range(iters_num):
 
     loss = network.loss(x_batch, t_batch)
     train_loss_list.append(loss)
-    w1 = network.params['W1'][300][1]
-    w2 = network.params['W1'][310][3]
+    w1.append(network.params['W1'][300][5])
+    w2.append(network.params['W1'][300][6])
     #print(w1)
     #print(w2)
 
@@ -54,5 +58,5 @@ for i in range(iters_num):
         #print(str(int(i/iter_per_epoch)) + ":" + str(train_acc) + str(test_acc))
         print('{0} : {1:.4f}  {2:.4f}'.format(int(i/iter_per_epoch),train_acc,test_acc))
 
-#plt.plot(w1,w2,"o")
-#plt.show()
+plt.plot(w1,w2,"o")
+plt.show()
