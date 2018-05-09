@@ -8,17 +8,22 @@ from dataset.mnist import load_mnist
 from two_layer_net import TwoLayerNet
 
 train_num = 500
-epoch_num = 1000
-hidden_num = 30
+epoch_num = 800
+hidden_num = 90
+batch_size = 50
+learning_rate = 0.2
 # データの読み込み
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
 x_train = x_train[:train_num]
 t_train = t_train[:train_num]
 
 #テストデータのランダム化
-#for i in range(100):
-#    t_train[i] =
-print(t_train)
+for i in range(train_num):
+    for j in range(10):
+        if(j == i % 10):
+            t_train[i][j] = 1
+        else:
+            t_train[i][j] = 0
 
 #重みを表示する
 w11 = []
@@ -28,11 +33,7 @@ w22 = []
 
 network = TwoLayerNet(input_size=784, hidden_size=hidden_num, output_size=10)
 
-
 train_size = x_train.shape[0]
-batch_size = 100
-learning_rate = 0.1
-
 train_loss_list = []
 train_acc_list = []
 test_acc_list = []
@@ -72,6 +73,8 @@ for i in range(iters_num):
         test_acc_list.append(test_acc)
         #print(str(int(i/iter_per_epoch)) + ":" + str(train_acc) + str(test_acc))
         print('{0} : {1:.4f}  {2:.4f}'.format(int(i/iter_per_epoch),train_acc,test_acc))
+
+print(network.predict(x_test))
 
 plt.plot(w11,w12,"ro")
 plt.plot(w21,w22,"o")
