@@ -9,8 +9,8 @@ from two_layer_net import TwoLayerNet
 
 # データの読み込み
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
-x_train = x_train[:400]
-t_train = t_train[:400]
+x_train = x_train[:100]
+t_train = t_train[:100]
 
 #重みを表示する
 w11 = []
@@ -18,9 +18,9 @@ w12 = []
 w21 = []
 w22 = []
 
-network = TwoLayerNet(input_size=784, hidden_size=10, output_size=10)
+network = TwoLayerNet(input_size=784, hidden_size=50, output_size=10)
 
-epoch_num = 400
+epoch_num = 1000
 train_size = x_train.shape[0]
 batch_size = 100
 learning_rate = 0.1
@@ -47,7 +47,7 @@ for i in range(iters_num):
 
     loss = network.loss(x_batch, t_batch)
     train_loss_list.append(loss)
-    if(i < iters_num/3):
+    if(i < iters_num/2):
         w11.append(network.params['W1'][300][5])
         w12.append(network.params['W1'][300][6])
     else:
