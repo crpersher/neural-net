@@ -7,10 +7,18 @@ import numpy as np
 from dataset.mnist import load_mnist
 from two_layer_net import TwoLayerNet
 
+train_num = 500
+epoch_num = 1000
+hidden_num = 30
 # データの読み込み
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
-x_train = x_train[:100]
-t_train = t_train[:100]
+x_train = x_train[:train_num]
+t_train = t_train[:train_num]
+
+#テストデータのランダム化
+#for i in range(100):
+#    t_train[i] =
+print(t_train)
 
 #重みを表示する
 w11 = []
@@ -18,9 +26,9 @@ w12 = []
 w21 = []
 w22 = []
 
-network = TwoLayerNet(input_size=784, hidden_size=50, output_size=10)
+network = TwoLayerNet(input_size=784, hidden_size=hidden_num, output_size=10)
 
-epoch_num = 1000
+
 train_size = x_train.shape[0]
 batch_size = 100
 learning_rate = 0.1
