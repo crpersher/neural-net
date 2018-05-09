@@ -54,5 +54,5 @@ for i in range(iters_num):
         #print(str(int(i/iter_per_epoch)) + ":" + str(train_acc) + str(test_acc))
         print('{0} : {1:.4f}  {2:.4f}'.format(int(i/iter_per_epoch),train_acc,test_acc))
 
-plt.plot(w1,w2,"o")
-plt.show()
+#plt.plot(w1,w2,"o")
+#plt.show()
