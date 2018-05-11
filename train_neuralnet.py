@@ -1,5 +1,9 @@
 # coding: utf-8
 import sys, os
+<<<<<<< HEAD
+=======
+import pickle
+>>>>>>> origin/master
 sys.path.append(os.pardir)
 
 import matplotlib.pyplot as plt
@@ -8,7 +12,11 @@ from dataset.mnist import load_mnist
 from two_layer_net import TwoLayerNet
 
 train_num = 1000
+<<<<<<< HEAD
 epoch_num = 500
+=======
+epoch_num = 600
+>>>>>>> origin/master
 hidden_num = 30
 batch_size = 100
 learning_rate = 0.1
@@ -77,12 +85,17 @@ for i in range(iters_num):
 y = network.predict(x_test)
 y = np.argmax(y, axis=1)
 f = open('generalization_test1.txt','w')
+<<<<<<< HEAD
 
 count = 0
 for i in y:
     f.write(str(i) + "\n")
     count += 1
 f.write("count:" + str(count))
+=======
+for i in y:
+    f.write(str(i))
+>>>>>>> origin/master
 f.close()
 
 plt.plot(w11,w12,"ro")
