@@ -9,10 +9,11 @@ import numpy as np
 from dataset.mnist import load_mnist
 from two_layer_net import TwoLayerNet
 
-def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size = 100,learning_rate = 0.1):
+def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size = 100,learning_rate = 0.1,data1 = 1,ratechange = False,random = True,same = 0):
 
-    seeweight = False
-    ramdom = True
+    seeweight = False   #重み可視化
+    data2 = 2
+
     # データの読み込み
     (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
     x_train = x_train[:train_num]
@@ -48,6 +49,7 @@ def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size 
     iters_num = int(iter_per_epoch * epoch_num)
 
     for i in range(iters_num):
+
         batch_mask = np.random.choice(train_size, batch_size)
         x_batch = x_train[batch_mask]
         t_batch = t_train[batch_mask]
@@ -62,6 +64,11 @@ def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size 
 
         loss = network.loss(x_batch, t_batch)
         train_loss_list.append(loss)
+
+        #途中で学習率の変更
+        if(ratechange and (i > iters_num/2)):
+            learning_rate = learning_rate / 2
+            ratechange = False
         #重みの表示用登録
         if(seeweight):
             if(i < iters_num/2):
@@ -74,19 +81,27 @@ def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size 
         #print(w1)
         #print(w2)
         if i % (iter_per_epoch*100) == 0:
+            #sameに値が入っている場合は二つファイルを作成する必要がある．
+            if(same > 0 and i / iter_per_epoch == same):
+                    y = network.predict(x_test)
+                    y = np.argmax(y, axis=1)
+                    f = open('data' + str(data2) + '.txt','w')
+                    count = 0
+                    for i in y:
+                        f.write(str(i) + "\n")
+                        count += 1
+                    f.write("count:" + str(count))
+            """
             train_acc = network.accuracy(x_train, t_train)
             test_acc = network.accuracy(x_test, t_test)
             train_acc_list.append(train_acc)
             test_acc_list.append(test_acc)
             #print(str(int(i/iter_per_epoch)) + ":" + str(train_acc) + str(test_acc))
             print('{0} : {1:.4f}  {2:.4f}'.format(int(i/iter_per_epoch),train_acc,test_acc))
-
+            """    
     y = network.predict(x_test)
     y = np.argmax(y, axis=1)
-    f = open('train_' + str(train_num) + '_epoch_' + str(epoch_num) \
-    + '_hidd_' + str(hidden_num) + '_batch_' + str(batch_size) + \
-    '_learn_' + str(learning_rate) +'.txt','w')
-
+    f = open('data' + str(data1) +'.txt','w')
     count = 0
     for i in y:
         f.write(str(i) + "\n")
