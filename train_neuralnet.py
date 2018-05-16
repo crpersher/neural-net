@@ -91,14 +91,14 @@ def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size 
                         f.write(str(i) + "\n")
                         count += 1
                     f.write("count:" + str(count))
-            """
+
             train_acc = network.accuracy(x_train, t_train)
             test_acc = network.accuracy(x_test, t_test)
             train_acc_list.append(train_acc)
             test_acc_list.append(test_acc)
             #print(str(int(i/iter_per_epoch)) + ":" + str(train_acc) + str(test_acc))
             print('{0} : {1:.4f}  {2:.4f}'.format(int(i/iter_per_epoch),train_acc,test_acc))
-            """    
+
     y = network.predict(x_test)
     y = np.argmax(y, axis=1)
     f = open('data' + str(data1) +'.txt','w')
