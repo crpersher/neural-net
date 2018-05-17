@@ -12,6 +12,7 @@ from two_layer_net import TwoLayerNet
 def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size = 100,learning_rate = 0.1,data1 = 1,ratechange = False,random = True,same = 0):
 
     seeweight = False   #重み可視化
+    see_acc   = True   #正答率可視化
     data2 = 2
 
     # データの読み込み
@@ -92,12 +93,13 @@ def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size 
                         count += 1
                     f.write("count:" + str(count))
 
-            train_acc = network.accuracy(x_train, t_train)
-            test_acc = network.accuracy(x_test, t_test)
-            train_acc_list.append(train_acc)
-            test_acc_list.append(test_acc)
-            #print(str(int(i/iter_per_epoch)) + ":" + str(train_acc) + str(test_acc))
-            print('{0} : {1:.4f}  {2:.4f}'.format(int(i/iter_per_epoch),train_acc,test_acc))
+            if(see_acc):
+                train_acc = network.accuracy(x_train, t_train)
+                test_acc = network.accuracy(x_test, t_test)
+                train_acc_list.append(train_acc)
+                test_acc_list.append(test_acc)
+                #print(str(int(i/iter_per_epoch)) + ":" + str(train_acc) + str(test_acc))
+                print('{0} : {1:.4f}  {2:.4f}'.format(int(i/iter_per_epoch),train_acc,test_acc))
 
     y = network.predict(x_test)
     y = np.argmax(y, axis=1)

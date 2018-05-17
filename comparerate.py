@@ -5,16 +5,16 @@ import compare
 import train_neuralnet
 
 train_num1 = 1000
-epoch_num1 = 500
-hidden_num1 = 600
-batch_size1 = 100
-learning_rate1 = 0.1
+epoch_num1 = 1500
+hidden_num1 = 30
+batch_size1 = 1000
+learning_rate1 = 0.5
 
 train_num2 = 1000
-epoch_num2 = 500
-hidden_num2 =600
-batch_size2 = 100
-learning_rate2 = 0.1
+epoch_num2 = 1500
+hidden_num2 =30
+batch_size2 = 1000
+learning_rate2 = 0.5
 
 ratechange = False
 
