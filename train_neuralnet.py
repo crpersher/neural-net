@@ -9,7 +9,7 @@ import numpy as np
 from dataset.mnist import load_mnist
 from two_layer_net import TwoLayerNet
 
-def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size = 100,learning_rate = 0.1,data1 = 1,ratechange = False,random = True,same = 0):
+def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size = 100,learning_rate = 0.1,data_num = 1,ratechange = False,random = True,same = 0,regression = False):
 
     seeweight = False   #重み可視化
     see_acc   = True   #正答率可視化
@@ -102,8 +102,11 @@ def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size 
                 print('{0} : {1:.4f}  {2:.4f}'.format(int(i/iter_per_epoch),train_acc,test_acc))
 
     y = network.predict(x_test)
-    y = np.argmax(y, axis=1)
-    f = open('data' + str(data1) +'.txt','w')
+    #クラス認識をする場合はコメント外す
+    if(not regression):
+        y = np.argmax(y, axis=1)
+
+    f = open('data' + str(data_num) +'.txt','w')
     count = 0
     for i in y:
         f.write(str(i) + "\n")
