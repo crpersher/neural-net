@@ -10,9 +10,8 @@ def compare(fileA = "generalization_test0.txt", fileB ="generalization_test1.txt
     test_num = 10000
     count = 0
     if(regression):
-        
-        for i in range(test_num):
-            count = count + abs(float(linesA[i]) - float(linesB[i]))
+        for i in range(len(linesA)):
+                count = count + abs(float(linesA[i]) - float(linesB[i]))
     else:
     #正解数
         for i in range(test_num):

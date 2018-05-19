@@ -12,7 +12,7 @@ from two_layer_net import TwoLayerNet
 def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size = 100,learning_rate = 0.1,data_num = 1,ratechange = False,random = True,same = 0,regression = False):
 
     seeweight = False   #重み可視化
-    see_acc   = True   #正答率可視化
+    see_acc   = False   #正答率可視化
     data2 = 2
 
     # データの読み込み
@@ -103,15 +103,16 @@ def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size 
 
     y = network.predict(x_test)
     #クラス認識をする場合はコメント外す
-    if(not regression):
+    if(regression):
+        y = y.reshape(-1,)
+    else:
         y = np.argmax(y, axis=1)
-
     f = open('data' + str(data_num) +'.txt','w')
     count = 0
     for i in y:
         f.write(str(i) + "\n")
         count += 1
-    f.write("count:" + str(count))
+    #f.write("count:" + str(count))
 
     #重みの表示
     if(seeweight):
