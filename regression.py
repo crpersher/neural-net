@@ -1,7 +1,6 @@
 # coding: utf-8
 import sys, os
 import pickle
-import random
 
 sys.path.append(os.pardir)
 
@@ -10,37 +9,11 @@ import numpy as np
 from dataset.mnist import load_mnist
 from two_layer_net import TwoLayerNet
 
-def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size = 100,learning_rate = 0.1,data_num = 1,ratechange = False,same = 0,regression = False,seed = 0):
+def regression(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size = 100,learning_rate = 0.1,data_num = 1,ratechange = False,random = True,same = 0,regression = False):
 
-    seeweight = False   #重み可視化
-    see_acc   = True   #正答率可視化
-    data2 = 2
-
-    random_change = True
-    random.seed(seed)
-
-    # データの読み込み
-    (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
+    # データの作成
     x_train = x_train[:train_num]
     t_train = t_train[:train_num]
-
-    #テストデータのランダム化
-    if(random_change):
-        for i in range(train_num):
-            a = random.randrange(10)
-            for j in range(10):
-                if(j == a):
-                    t_train[i][j] = 1
-                else:
-                    t_train[i][j] = 0
-
-    #重みを表示する
-    if(seeweight):
-        w11 = []
-        w12 = []
-        w21 = []
-        w22 = []
-
 
     network = TwoLayerNet(input_size=784, hidden_size=hidden_num, output_size=10)
 
@@ -123,4 +96,4 @@ def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size 
         plt.plot(w21,w22,"o")
         plt.show()
 if __name__ == '__main__':
-    train_neuralnet()
+    regression()
