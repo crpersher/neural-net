@@ -9,19 +9,20 @@ import numpy as np
 from dataset.mnist import load_mnist
 from two_layer_net import TwoLayerNet
 
-def regression(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size = 100,learning_rate = 0.1,data_num = 1,ratechange = False,random = True,same = 0,regression = False):
+def regression(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size = 1,learning_rate = 0.1,ratechange = False):
 
-    # データの作成
-    x_train = x_train[:train_num]
-    t_train = t_train[:train_num]
+    seeweight = False
+    see_acc = True
+    network = TwoLayerNet(input_size=1, hidden_size=hidden_num, output_size=1)
 
-    network = TwoLayerNet(input_size=784, hidden_size=hidden_num, output_size=10)
-
+    x_train = np.array([-3,-2,-1,0,1,2,3])
+    t_train = np.array([[1],[1],[0],[1],[0],[0],[1]])
+    x_test = np.linspace(-5,5,10)
     train_size = x_train.shape[0]
     train_loss_list = []
     train_acc_list = []
-    test_acc_list = []
 
+    batch_size = train_size
     iter_per_epoch = max(train_size / batch_size, 1)
     iters_num = int(iter_per_epoch * epoch_num)
 
@@ -49,51 +50,33 @@ def regression(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size = 100
         #重みの表示用登録
         if(seeweight):
             if(i < iters_num/2):
-                w11.append(network.params['W1'][300][5])
-                w12.append(network.params['W1'][300][6])
+                w11.append(network.params['W1'][0][5])
+                w12.append(network.params['W1'][0][6])
             else:
-                w21.append(network.params['W1'][300][5])
-                w22.append(network.params['W1'][300][6])
+                w21.append(network.params['W1'][0][5])
+                w22.append(network.params['W1'][0][6])
 
         #print(w1)
         #print(w2)
         if i % (iter_per_epoch*100) == 0:
             #sameに値が入っている場合は二つファイルを作成する必要がある．
-            if(same > 0 and i / iter_per_epoch == same):
-                    y = network.predict(x_test)
-                    y = np.argmax(y, axis=1)
-                    f = open('data' + str(data2) + '.txt','w')
-                    count = 0
-                    for i in y:
-                        f.write(str(i) + "\n")
-                        count += 1
-                    f.write("count:" + str(count))
 
             if(see_acc):
                 train_acc = network.accuracy(x_train, t_train)
-                test_acc = network.accuracy(x_test, t_test)
                 train_acc_list.append(train_acc)
-                test_acc_list.append(test_acc)
                 #print(str(int(i/iter_per_epoch)) + ":" + str(train_acc) + str(test_acc))
-                print('{0} : {1:.4f}  {2:.4f}'.format(int(i/iter_per_epoch),train_acc,test_acc))
-
-    y = network.predict(x_test)
-    #クラス認識をする場合はコメント外す
-    if(regression):
-        y = y.reshape(-1,)
-    else:
-        y = np.argmax(y, axis=1)
-    f = open('data' + str(data_num) +'.txt','w')
-    count = 0
-    for i in y:
-        f.write(str(i) + "\n")
-        count += 1
-    #f.write("count:" + str(count))
+                print('{0} : {1:.4f} '.format(int(i/iter_per_epoch),train_acc))
 
     #重みの表示
     if(seeweight):
         plt.plot(w11,w12,"ro")
         plt.plot(w21,w22,"o")
         plt.show()
+    #テストデータの可視化
+    y = network.predict(x_test)
+    print(y)
+    plt.plot(x_test,y)
+    plt.show()
+
 if __name__ == '__main__':
     regression()
