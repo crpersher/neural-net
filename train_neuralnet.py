@@ -16,17 +16,18 @@ def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size 
     see_acc   = True   #正答率可視化
     data2 = 2
 
-    random_change = True
+    random_change = False
     random.seed(seed)
 
     # データの読み込み
     (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
+    print(x_train.shape)
     x_train = x_train[:train_num]
     t_train = t_train[:train_num]
-
+    train_size = x_train.shape[0]
     #テストデータのランダム化
     if(random_change):
-        for i in range(train_num):
+        for i in range(train_size):
             a = random.randrange(10)
             for j in range(10):
                 if(j == a):
@@ -44,7 +45,6 @@ def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size 
 
     network = TwoLayerNet(input_size=784, hidden_size=hidden_num, output_size=10)
 
-    train_size = x_train.shape[0]
     train_loss_list = []
     train_acc_list = []
     test_acc_list = []
