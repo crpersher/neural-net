@@ -10,13 +10,15 @@ import numpy as np
 from dataset.mnist import load_mnist
 from two_layer_net import TwoLayerNet
 
-def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size = 100,learning_rate = 0.1,data_num = 1,ratechange = False,same = 0,regression = False,seed = 0):
 
-    seeweight = False   #重み可視化
-    see_acc   = True   #正答率可視化
+
+def output_neuralnet(train_num = 60000,epoch_num = 1000,hidden_num = 300,batch_size = 100,learning_rate = 0.1,data_num = 1,ratechange = False,samecompare_epoch = 0,comparevalues = False,seed = 0):
+
+    see_weight = False
+    see_acc   = True
     data2 = 2
 
-    random_change = False
+    random_change = True
     random.seed(seed)
 
     # データの読み込み
@@ -25,7 +27,7 @@ def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size 
     x_train = x_train[:train_num]
     t_train = t_train[:train_num]
     train_size = x_train.shape[0]
-    #テストデータのランダム化
+    #学習データのランダム化
     if(random_change):
         for i in range(train_size):
             a = random.randrange(10)
@@ -36,7 +38,7 @@ def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size 
                     t_train[i][j] = 0
 
     #重みを表示する
-    if(seeweight):
+    if(see_weight):
         w11 = []
         w12 = []
         w21 = []
@@ -74,7 +76,7 @@ def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size 
             learning_rate = learning_rate / 2
             ratechange = False
         #重みの表示用登録
-        if(seeweight):
+        if(see_weight):
             if(i < iters_num/2):
                 w11.append(network.params['W1'][300][5])
                 w12.append(network.params['W1'][300][6])
@@ -86,7 +88,7 @@ def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size 
         #print(w2)
         if i % (iter_per_epoch*100) == 0:
             #sameに値が入っている場合は二つファイルを作成する必要がある．
-            if(same > 0 and i / iter_per_epoch == same):
+            if(samecompare_epoch > 0 and i / iter_per_epoch == samecompare_epoch):
                     y = network.predict(x_test)
                     y = np.argmax(y, axis=1)
                     f = open('data' + str(data2) + '.txt','w')
@@ -106,7 +108,7 @@ def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size 
 
     y = network.predict(x_test)
     #クラス認識をする場合はコメント外す
-    if(regression):
+    if(comparevalues):
         y = y.reshape(-1,)
     else:
         y = np.argmax(y, axis=1)
@@ -115,12 +117,12 @@ def train_neuralnet(train_num = 1000,epoch_num = 600,hidden_num = 30,batch_size 
     for i in y:
         f.write(str(i) + "\n")
         count += 1
-    #f.write("count:" + str(count))
 
-    #重みの表示
-    if(seeweight):
+    if(see_weight):
         plt.plot(w11,w12,"ro")
         plt.plot(w21,w22,"o")
         plt.show()
+
+
 if __name__ == '__main__':
     train_neuralnet()
